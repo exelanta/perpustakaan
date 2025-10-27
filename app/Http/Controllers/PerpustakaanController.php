@@ -12,7 +12,8 @@ class PerpustakaanController extends Controller
      */
     public function index()
     {
-        //
+        $perpustakaans = Perpustakaan::all();
+        return view('perpustakaans.index', compact('perpustakaans'));   
     }
 
     /**
@@ -20,7 +21,7 @@ class PerpustakaanController extends Controller
      */
     public function create()
     {
-        //
+        return view('perpustakaans.create');
     }
 
     /**
@@ -28,7 +29,21 @@ class PerpustakaanController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'title' => 'required',
+            'author' => 'required',
+            'publisher' => 'required',
+            'year' => 'required',
+            'isbn' => 'required',
+            'cover' => 'required',
+            'description' => 'required',
+            'category' => 'required',
+        ]);
+
+        Perpustakaan::create($request->all());
+
+        return redirect()->route('perpustakaans.index')
+            ->with('success', 'Perpustakaan created successfully.');
     }
 
     /**
@@ -36,7 +51,7 @@ class PerpustakaanController extends Controller
      */
     public function show(Perpustakaan $perpustakaan)
     {
-        //
+        return view('perpustakaans.show', compact('perpustakaan'));
     }
 
     /**
@@ -44,7 +59,7 @@ class PerpustakaanController extends Controller
      */
     public function edit(Perpustakaan $perpustakaan)
     {
-        //
+        return view('perpustakaans.edit', compact('perpustakaan'));
     }
 
     /**
@@ -52,7 +67,21 @@ class PerpustakaanController extends Controller
      */
     public function update(Request $request, Perpustakaan $perpustakaan)
     {
-        //
+        $request->validate([
+            'title' => 'required',
+            'author' => 'required',
+            'publisher' => 'required',
+            'year' => 'required',
+            'isbn' => 'required',
+            'cover' => 'required',
+            'description' => 'required',
+            'category' => 'required',
+        ]);
+
+        $perpustakaans->update($request->all());
+
+        return redirect()->route('perpustakaans.index')
+            ->with('success', 'Perpustakaan updated successfully'); 
     }
 
     /**
@@ -60,6 +89,9 @@ class PerpustakaanController extends Controller
      */
     public function destroy(Perpustakaan $perpustakaan)
     {
-        //
+        $perpustakaan->delete();
+
+        return redirect()->route('perpustakaans.index')
+            ->with('success', 'Perpustakaan deleted successfully'); 
     }
 }
